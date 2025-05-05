@@ -31,6 +31,30 @@ export const FoodAnalysis: React.FC = () => {
     const [error, setError] = useState('');
     const toast = useToast();
 
+    const saveAnalysisToDb = async (analysisData: any) => {
+        try {
+            const response = await fetch('/api/food-analysis/add', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(analysisData),
+            });
+
+            const data = await response.json();
+            
+            if (data.error) {
+                throw new Error(data.error);
+            }
+
+            // 可以添加成功提示
+            alert('分析結果已保存！');
+        } catch (error) {
+            console.error('保存分析結果失敗:', error);
+            alert('保存分析結果失敗，請稍後再試。');
+        }
+    };
+
     const handleAnalysis = async () => {
         if (!description.trim()) {
             setError('請輸入美食描述');
@@ -46,6 +70,45 @@ export const FoodAnalysis: React.FC = () => {
             toast({
                 title: '分析完成',
                 description: '已成功分析您的美食描述',
+                status: 'success',
+                duration: 3000,
+                isClosable: true,
+            });
+
+            // 在分析完成後保存結果
+            const analysisData = {
+                date: new Date(),
+                mealType: '未指定',
+                foods: [
+                    {
+                        name: description,
+                        quantity: 1,
+                        unit: '份',
+                        calories: result.nutritionInfo.calories || 0,
+                        nutrients: {
+                            protein: result.nutritionInfo.protein || 0,
+                            carbs: result.nutritionInfo.carbs || 0,
+                            fat: result.nutritionInfo.fat || 0,
+                            fiber: result.nutritionInfo.fiber || 0,
+                        },
+                    },
+                ],
+                totalCalories: result.nutritionInfo.calories || 0,
+                nutritionBalance: {
+                    protein: result.nutritionInfo.protein || 0,
+                    carbs: result.nutritionInfo.carbs || 0,
+                    fat: result.nutritionInfo.fat || 0,
+                    fiber: result.nutritionInfo.fiber || 0,
+                },
+                healthScore: result.healthScore,
+                recommendations: [result.recommendation],
+            };
+
+            await saveAnalysisToDb(analysisData);
+            
+            toast({
+                title: '保存成功',
+                description: '分析結果已成功保存到資料庫',
                 status: 'success',
                 duration: 3000,
                 isClosable: true,
