@@ -24,13 +24,9 @@ import { CheckCircleIcon } from '@chakra-ui/icons';
 import { analyzeFood, AIAnalysisResponse } from '../services/ai';
 import { NutritionChart } from './NutritionChart';
 
-interface NutrientInfo {
-    calories: number;
-    protein: number;
-    carbs: number;
-    fat: number;
-    fiber: number;
-}
+type NutritionInfo = AIAnalysisResponse['nutritionInfo'];
+
+interface NutrientInfo extends NutritionInfo {}
 
 interface FoodItem {
     name: string;
