@@ -16,6 +16,7 @@ export interface AIAnalysisResponse {
         protein: number;
         carbs: number;
         fat: number;
+        fiber: number;
     };
     tags: string[];
     healthyAlternatives: string[];
@@ -41,7 +42,8 @@ const parseAIResponse = (response: string): AIAnalysisResponse => {
                 calories: 0,
                 protein: 0,
                 carbs: 0,
-                fat: 0
+                fat: 0,
+                fiber: 0
             },
             tags: parsed.tags || [],
             healthyAlternatives: parsed.healthyAlternatives || []
@@ -55,7 +57,8 @@ const parseAIResponse = (response: string): AIAnalysisResponse => {
                 calories: 0,
                 protein: 0,
                 carbs: 0,
-                fat: 0
+                fat: 0,
+                fiber: 0
             },
             tags: ['無法解析標籤'],
             healthyAlternatives: []
@@ -77,7 +80,8 @@ export const analyzeFood = async (foodDescription: string): Promise<AIAnalysisRe
         "calories": 預估卡路里,
         "protein": 蛋白質克數,
         "carbs": 碳水化合物克數,
-        "fat": 脂肪克數
+        "fat": 脂肪克數,
+        "fiber": 膳食纖維克數
     },
     "tags": ["相關標籤"],
     "healthyAlternatives": ["健康替代選擇"]
