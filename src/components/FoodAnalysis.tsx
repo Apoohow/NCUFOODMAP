@@ -25,6 +25,7 @@ import { analyzeFood, AIAnalysisResponse } from '../services/ai';
 import { NutritionChart } from './NutritionChart';
 
 interface NutrientInfo {
+    calories: number;
     protein: number;
     carbs: number;
     fat: number;
@@ -112,7 +113,7 @@ export const FoodAnalysis: React.FC = () => {
             });
 
             // 在分析完成後保存結果
-            const analysisData = {
+            const analysisData: AnalysisData = {
                 date: new Date(),
                 mealType: '未指定',
                 foods: [
@@ -122,6 +123,7 @@ export const FoodAnalysis: React.FC = () => {
                         unit: '份',
                         calories: result.nutritionInfo.calories || 0,
                         nutrients: {
+                            calories: result.nutritionInfo.calories || 0,
                             protein: result.nutritionInfo.protein || 0,
                             carbs: result.nutritionInfo.carbs || 0,
                             fat: result.nutritionInfo.fat || 0,
@@ -131,6 +133,7 @@ export const FoodAnalysis: React.FC = () => {
                 ],
                 totalCalories: result.nutritionInfo.calories || 0,
                 nutritionBalance: {
+                    calories: result.nutritionInfo.calories || 0,
                     protein: result.nutritionInfo.protein || 0,
                     carbs: result.nutritionInfo.carbs || 0,
                     fat: result.nutritionInfo.fat || 0,
