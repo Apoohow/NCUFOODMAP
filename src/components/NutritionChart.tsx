@@ -14,6 +14,7 @@ import {
 } from 'chart.js';
 import { Bar, Radar } from 'react-chartjs-2';
 import { Box, SimpleGrid, useColorModeValue, VStack } from '@chakra-ui/react';
+import { AIAnalysisResponse } from '../services/ai';
 
 ChartJS.register(
     CategoryScale,
@@ -29,13 +30,7 @@ ChartJS.register(
 );
 
 interface NutritionChartProps {
-    nutritionInfo: {
-        calories: number;
-        protein: number;
-        carbs: number;
-        fat: number;
-        fiber: number;
-    };
+    nutritionInfo: AIAnalysisResponse['nutritionInfo'];
 }
 
 export const NutritionChart: React.FC<NutritionChartProps> = ({ nutritionInfo }) => {
