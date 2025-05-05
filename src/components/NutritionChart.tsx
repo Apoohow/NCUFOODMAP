@@ -34,6 +34,7 @@ interface NutritionChartProps {
         protein: number;
         carbs: number;
         fat: number;
+        fiber: number;
     };
 }
 
@@ -43,7 +44,7 @@ export const NutritionChart: React.FC<NutritionChartProps> = ({ nutritionInfo })
     const borderColor = useColorModeValue('rgba(255, 152, 0, 0.8)', 'rgba(255, 152, 0, 0.8)');
 
     const barData = {
-        labels: ['熱量 (kcal)', '蛋白質 (g)', '碳水化合物 (g)', '脂肪 (g)'],
+        labels: ['熱量 (kcal)', '蛋白質 (g)', '碳水化合物 (g)', '脂肪 (g)', '膳食纖維 (g)'],
         datasets: [
             {
                 data: [
@@ -51,6 +52,7 @@ export const NutritionChart: React.FC<NutritionChartProps> = ({ nutritionInfo })
                     nutritionInfo.protein,
                     nutritionInfo.carbs,
                     nutritionInfo.fat,
+                    nutritionInfo.fiber,
                 ],
                 backgroundColor: primaryColor,
                 borderColor: borderColor,
@@ -61,13 +63,14 @@ export const NutritionChart: React.FC<NutritionChartProps> = ({ nutritionInfo })
     };
 
     const radarData = {
-        labels: ['蛋白質', '碳水化合物', '脂肪'],
+        labels: ['蛋白質', '碳水化合物', '脂肪', '膳食纖維'],
         datasets: [
             {
                 data: [
                     nutritionInfo.protein,
                     nutritionInfo.carbs,
                     nutritionInfo.fat,
+                    nutritionInfo.fiber,
                 ],
                 backgroundColor: primaryColorLight,
                 borderColor: borderColor,
