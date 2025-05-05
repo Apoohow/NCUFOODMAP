@@ -25,8 +25,7 @@ import { analyzeFood, AIAnalysisResponse } from '../services/ai';
 import { NutritionChart } from './NutritionChart';
 
 type NutritionInfo = AIAnalysisResponse['nutritionInfo'];
-
-interface NutrientInfo extends NutritionInfo {}
+type NutrientInfo = NutritionInfo;
 
 interface FoodItem {
     name: string;
@@ -117,26 +116,26 @@ export const FoodAnalysis: React.FC = () => {
                         name: description,
                         quantity: 1,
                         unit: '份',
-                        calories: result.nutritionInfo.calories || 0,
+                        calories: result.nutritionInfo.calories,
                         nutrients: {
-                            calories: result.nutritionInfo.calories || 0,
-                            protein: result.nutritionInfo.protein || 0,
-                            carbs: result.nutritionInfo.carbs || 0,
-                            fat: result.nutritionInfo.fat || 0,
-                            fiber: result.nutritionInfo.fiber || 0,
+                            calories: result.nutritionInfo.calories,
+                            protein: result.nutritionInfo.protein,
+                            carbs: result.nutritionInfo.carbs,
+                            fat: result.nutritionInfo.fat,
+                            fiber: result.nutritionInfo.fiber
                         },
                     },
                 ],
-                totalCalories: result.nutritionInfo.calories || 0,
+                totalCalories: result.nutritionInfo.calories,
                 nutritionBalance: {
-                    calories: result.nutritionInfo.calories || 0,
-                    protein: result.nutritionInfo.protein || 0,
-                    carbs: result.nutritionInfo.carbs || 0,
-                    fat: result.nutritionInfo.fat || 0,
-                    fiber: result.nutritionInfo.fiber || 0,
+                    calories: result.nutritionInfo.calories,
+                    protein: result.nutritionInfo.protein,
+                    carbs: result.nutritionInfo.carbs,
+                    fat: result.nutritionInfo.fat,
+                    fiber: result.nutritionInfo.fiber
                 },
                 healthScore: result.healthScore,
-                recommendations: [result.recommendation],
+                recommendations: result.healthyAlternatives
             };
 
             await saveAnalysisToDb(analysisData);
