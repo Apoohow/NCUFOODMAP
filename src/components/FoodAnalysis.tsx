@@ -24,6 +24,31 @@ import { CheckCircleIcon } from '@chakra-ui/icons';
 import { analyzeFood, AIAnalysisResponse } from '../services/ai';
 import { NutritionChart } from './NutritionChart';
 
+interface NutrientInfo {
+    protein: number;
+    carbs: number;
+    fat: number;
+    fiber: number;
+}
+
+interface FoodItem {
+    name: string;
+    quantity: number;
+    unit: string;
+    calories: number;
+    nutrients: NutrientInfo;
+}
+
+interface AnalysisData {
+    date: Date;
+    mealType: string;
+    foods: FoodItem[];
+    totalCalories: number;
+    nutritionBalance: NutrientInfo;
+    healthScore: number;
+    recommendations: string[];
+}
+
 export const FoodAnalysis: React.FC = () => {
     const [description, setDescription] = useState('');
     const [analysis, setAnalysis] = useState<AIAnalysisResponse | null>(null);
@@ -31,7 +56,7 @@ export const FoodAnalysis: React.FC = () => {
     const [error, setError] = useState('');
     const toast = useToast();
 
-    const saveAnalysisToDb = async (analysisData: any) => {
+    const saveAnalysisToDb = async (analysisData: AnalysisData) => {
         try {
             const response = await fetch('/api/food-analysis/add', {
                 method: 'POST',
@@ -47,11 +72,22 @@ export const FoodAnalysis: React.FC = () => {
                 throw new Error(data.error);
             }
 
-            // 可以添加成功提示
-            alert('分析結果已保存！');
+            toast({
+                title: '保存成功',
+                description: '分析結果已成功保存到資料庫',
+                status: 'success',
+                duration: 3000,
+                isClosable: true,
+            });
         } catch (error) {
             console.error('保存分析結果失敗:', error);
-            alert('保存分析結果失敗，請稍後再試。');
+            toast({
+                title: '保存失敗',
+                description: '保存分析結果失敗，請稍後再試',
+                status: 'error',
+                duration: 3000,
+                isClosable: true,
+            });
         }
     };
 
@@ -105,14 +141,6 @@ export const FoodAnalysis: React.FC = () => {
             };
 
             await saveAnalysisToDb(analysisData);
-            
-            toast({
-                title: '保存成功',
-                description: '分析結果已成功保存到資料庫',
-                status: 'success',
-                duration: 3000,
-                isClosable: true,
-            });
         } catch (err) {
             setError('分析過程發生錯誤，請稍後再試');
             toast({
