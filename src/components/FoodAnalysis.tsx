@@ -117,23 +117,11 @@ export const FoodAnalysis: React.FC = () => {
                         quantity: 1,
                         unit: '份',
                         calories: result.nutritionInfo.calories,
-                        nutrients: {
-                            calories: result.nutritionInfo.calories,
-                            protein: result.nutritionInfo.protein,
-                            carbs: result.nutritionInfo.carbs,
-                            fat: result.nutritionInfo.fat,
-                            fiber: result.nutritionInfo.fiber
-                        },
+                        nutrients: result.nutritionInfo,
                     },
                 ],
                 totalCalories: result.nutritionInfo.calories,
-                nutritionBalance: {
-                    calories: result.nutritionInfo.calories,
-                    protein: result.nutritionInfo.protein,
-                    carbs: result.nutritionInfo.carbs,
-                    fat: result.nutritionInfo.fat,
-                    fiber: result.nutritionInfo.fiber
-                },
+                nutritionBalance: result.nutritionInfo,
                 healthScore: result.healthScore,
                 recommendations: result.healthyAlternatives
             };
